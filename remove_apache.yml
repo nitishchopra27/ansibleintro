@@ -4,10 +4,24 @@
   become: true
   tasks:
 
-  - name: remove apache2 package and remove php support
-    package:
+  - name: remove apache2 package and add php support for Ubuntu
+    apt:
       name: 
-        - "{{ apache_package }}"
-        - "{{ php_package }}"
+        - apache2 
+        - libapache2-mod-php
+        - mariadb-server
+        - samba
       state: absent
       update_cache: yes
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
+  - name: remove httpd package and add php support for CentOS
+    dnf:
+      name:
+        - httpd
+        - php
+        - mariadb
+        - samba
+      state: absent
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
