@@ -14,7 +14,7 @@ server2
 server3
 
 [workstations]
-tower
+workstation
 
 [centos8]
 server4

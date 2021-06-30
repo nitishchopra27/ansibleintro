@@ -1,0 +1,10 @@
+---
+
+- hosts: workstations
+  become: true
+  tasks:
+
+  - name: remove unzip package from workstations
+    package:
+      name: unzip
+      state: absent
