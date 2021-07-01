@@ -68,6 +68,30 @@
       group: root
       mode: 0644
 
+  - name: start httpd (CentOS)
+    tags: httpd,apache,centos
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: change e-mail address for admin
+    tags: apache,centos,httpd
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regex: '^ServerAdmin'
+      line: ServerAdmin somebody@somewhere.net
+    when: ansible_distribution == "CentOS"
+    register: nitishchopra
+
+  - name: restart httpd service (CentOS)
+    tags: apache,httpd,centos
+    service:
+      name: httpd
+      state: restarted
+    when: nitishchopra.changed
+
 - hosts: db_servers
   become: true
   tasks:
